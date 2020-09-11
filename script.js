@@ -5,6 +5,7 @@ window.addEventListener("load", function() {
       response.json().then(function(json) {
          let form = document.querySelector("form");
          form.addEventListener("submit", function(event){
+            event.preventDefault();
             let pilotNameInput = document.querySelector("input[name=pilotName]");
             let copilotNameInput = document.querySelector("input[name=copilotName]");
             let fuelLevelInput = document.querySelector("input[name=fuelLevel]");
@@ -12,23 +13,21 @@ window.addEventListener("load", function() {
             let pilotStatusUpdate = document.getElementById("pilotStatus");
             let copilotStatusUpdate = document.getElementById("copilotStatus");
             let fuelStatusUpdate = document.getElementById("fuelStatus");
-            let cargoStatusUpdate = document.getElementById("cargoSatus");
+            let cargoStatusUpdate = document.getElementById("cargoStatus");
             let missionTarget = document.getElementById("missionTarget");
             if (pilotNameInput.value === "" || copilotNameInput.value === "" || fuelLevelInput.value === "" || cargoMassInput.value === "") {
                alert("All fields are required!");
-               event.preventDefault();
                return
             } else if (isNaN(Number(pilotNameInput.value)) !== true || isNaN(Number(copilotNameInput.value)) !== true || isNaN(Number(fuelLevelInput.value)) !== false || isNaN(Number(cargoMassInput.value)) !== false) {
                alert("Must use a valid entry for all fields!");
-               event.preventDefault();
                return
             }
 
             pilotStatusUpdate.innerHTML = `
-               <li id="pilotStatus">Pilot ${pilotNameInput.value} is Ready</li>
+               Pilot ${pilotNameInput.value} is Ready
                `;
             copilotStatusUpdate.innerHTML = `
-               <li id="copilotStatus">Co-pilot ${copilotNameInput.value} is Ready</li>
+               Co-pilot ${copilotNameInput.value} is Ready
                `;
 
             let index = Math.floor(Math.random()*6)
@@ -49,34 +48,32 @@ window.addEventListener("load", function() {
             if (Number(fuelLevelInput.value) < 10000) {
                document.getElementById("faultyItems").style.visibility = "visible";
                fuelStatusUpdate.innerHTML = `
-                  <li id="fuelStatus">There is not enough fuel for the journey!</li>
+                  There is not enough fuel for the journey!
                   `;
                launchStatus.innerHTML = `
-                  <h2 id="launchStatus">Shuttle not ready for launch</h2>
+                  Shuttle not ready for launch
                   `;
                document.getElementById("launchStatus").style.color = "red";
-               event.preventDefault();
             }
       
             if (Number(cargoMassInput.value) > 10000) {
+               console.log('fired');
                document.getElementById("faultyItems").style.visibility = "visible";
                cargoStatusUpdate.innerHTML = `
-                  <li id="cargoStatus">Too much mass for the shuttle to take off!</li>
+                  Too much mass for the shuttle to take off!
                   `;
                launchStatus.innerHTML = `
-                  <h2 id="launchStatus">Shuttle not ready for launch</h2>
+                  Shuttle not ready for launch
                   `;
                document.getElementById("launchStatus").style.color = "red";
-               event.preventDefault();
             }
       
             if (Number(fuelLevelInput.value) >= 10000 && Number(cargoMassInput.value) <= 10000) {
                document.getElementById("faultyItems").style.visibility = "visible";
                launchStatus.innerHTML = `
-                  <h2 id="launchStatus">Shuttle is ready for launch!</h2>
+                  Shuttle is ready for launch!
                   `;
                document.getElementById("launchStatus").style.color = "green";
-               event.preventDefault();
             }
          })
       })
